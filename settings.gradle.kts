@@ -37,3 +37,6 @@ include(":features:login")
 include(":features:home")
 include(":features:recipe-details")
 include(":features:cooking-timer")
+
+// SDK Modules
+include(":metrics-sdk")

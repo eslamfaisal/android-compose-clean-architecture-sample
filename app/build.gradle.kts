@@ -65,6 +65,9 @@ dependencies {
     implementation(project(":core:security"))
     implementation(project(":core:ui"))
     
+    // Metrics SDK
+    implementation(project(":metrics-sdk"))
+    
     // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -6,6 +6,7 @@ import com.eslam.bakingapp.core.common.result.Result
 import com.eslam.bakingapp.features.home.domain.usecase.GetRecipesUseCase
 import com.eslam.bakingapp.features.home.domain.usecase.SearchRecipesUseCase
 import com.eslam.bakingapp.features.home.domain.usecase.ToggleFavoriteUseCase
+import com.eslam.metrics.api.MetricsSDK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -34,6 +35,8 @@ class HomeViewModel @Inject constructor(
     
     init {
         loadRecipes()
+        // Track screen view
+        MetricsSDK.trackAction("home_screen_viewed")
     }
     
     /**
@@ -154,6 +157,12 @@ class HomeViewModel @Inject constructor(
      * Toggle favorite status for a recipe.
      */
     fun onFavoriteClick(recipeId: String) {
+        // Track favorite action with metadata
+        MetricsSDK.trackHeavyAction(
+            "recipe_favorite_toggled",
+            mapOf("recipeId" to recipeId)
+        )
+        
         viewModelScope.launch {
             // Optimistic update
             _uiState.update { state ->
