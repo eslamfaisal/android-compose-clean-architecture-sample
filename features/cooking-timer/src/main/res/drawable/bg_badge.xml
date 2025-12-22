@@ -4,3 +4,4 @@
     <solid android:color="@color/badge_background" />
     <corners android:radius="12dp" />
 </shape>
+

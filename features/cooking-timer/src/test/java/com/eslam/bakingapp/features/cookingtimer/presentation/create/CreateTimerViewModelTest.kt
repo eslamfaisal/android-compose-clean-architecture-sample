@@ -197,3 +197,4 @@ class CreateTimerViewModelTest {
         assertThat(viewModel.uiState.value.formattedDuration).isEqualTo("05:30")
     }
 }
+

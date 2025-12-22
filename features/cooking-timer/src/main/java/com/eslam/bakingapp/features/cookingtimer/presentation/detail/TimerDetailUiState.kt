@@ -21,3 +21,4 @@ sealed class TimerDetailEvent {
     data object NavigateBack : TimerDetailEvent()
     data class ShowMessage(val message: String) : TimerDetailEvent()
 }
+

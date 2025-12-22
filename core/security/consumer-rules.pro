@@ -27,3 +27,4 @@
 -keep class com.eslam.bakingapp.core.security.NativeLibraryNotLoadedException {
     *;
 }
+

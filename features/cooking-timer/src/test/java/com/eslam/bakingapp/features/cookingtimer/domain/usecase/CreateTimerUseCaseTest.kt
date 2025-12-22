@@ -111,3 +111,4 @@ class CreateTimerUseCaseTest {
         assertThat(result).isInstanceOf(Result.Error::class.java)
     }
 }
+

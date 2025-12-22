@@ -228,3 +228,4 @@ class NativeKeyProvider @Inject constructor(
  * Exception thrown when native library is not available
  */
 class NativeLibraryNotLoadedException(message: String) : RuntimeException(message)
+

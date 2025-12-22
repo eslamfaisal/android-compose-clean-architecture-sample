@@ -187,3 +187,4 @@ class FakeApiKeyProvider : ApiKeyProvider {
 - [Android NDK Documentation](https://developer.android.com/ndk)
 - [JNI Tips](https://developer.android.com/training/articles/perf-jni)
 - [ProGuard and Native Code](https://developer.android.com/studio/build/shrink-code)
+

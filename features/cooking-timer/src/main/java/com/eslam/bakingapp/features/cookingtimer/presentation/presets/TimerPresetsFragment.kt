@@ -138,3 +138,4 @@ class TimerPresetsFragment : BaseFragment<FragmentTimerPresetsBinding>() {
         super.onDestroyView()
     }
 }
+

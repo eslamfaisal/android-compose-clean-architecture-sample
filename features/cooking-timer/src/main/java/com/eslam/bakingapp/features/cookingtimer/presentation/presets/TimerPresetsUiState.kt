@@ -43,3 +43,4 @@ sealed class TimerPresetsEvent {
     data class ShowMessage(val message: String) : TimerPresetsEvent()
     data class TimerCreatedFromPreset(val timerId: String) : TimerPresetsEvent()
 }
+

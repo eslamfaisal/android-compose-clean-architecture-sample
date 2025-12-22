@@ -291,3 +291,4 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         lifecycle.removeObserver(lifecycleObserver)
     }
 }
+

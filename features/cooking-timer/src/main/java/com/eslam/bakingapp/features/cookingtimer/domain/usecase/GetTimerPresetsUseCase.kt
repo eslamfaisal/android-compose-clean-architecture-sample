@@ -18,3 +18,4 @@ class GetTimerPresetsUseCase @Inject constructor(
         return repository.getTimerPresets()
     }
 }
+

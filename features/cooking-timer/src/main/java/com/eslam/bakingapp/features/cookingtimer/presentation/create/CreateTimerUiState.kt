@@ -35,3 +35,4 @@ sealed class CreateTimerEvent {
     data class ShowMessage(val message: String) : CreateTimerEvent()
     data class TimerCreated(val timerId: String) : CreateTimerEvent()
 }
+

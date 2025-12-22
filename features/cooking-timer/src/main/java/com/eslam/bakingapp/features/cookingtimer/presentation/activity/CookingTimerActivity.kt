@@ -366,3 +366,4 @@ class CookingTimerActivity : AppCompatActivity() {
         Log.d(TAG, "LifecycleObserver: ON_RESTART")
     }
 }
+

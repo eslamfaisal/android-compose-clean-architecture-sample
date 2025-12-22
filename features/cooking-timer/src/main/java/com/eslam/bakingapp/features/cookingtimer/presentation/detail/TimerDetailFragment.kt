@@ -136,3 +136,4 @@ class TimerDetailFragment : BaseFragment<FragmentTimerDetailBinding>() {
         }
     }
 }
+

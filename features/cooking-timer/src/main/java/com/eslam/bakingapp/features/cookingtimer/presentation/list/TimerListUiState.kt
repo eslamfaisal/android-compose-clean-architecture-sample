@@ -38,3 +38,4 @@ sealed class TimerListEvent {
     data class ShowMessage(val message: String) : TimerListEvent()
     data class TimerCompleted(val timer: CookingTimer) : TimerListEvent()
 }
+
