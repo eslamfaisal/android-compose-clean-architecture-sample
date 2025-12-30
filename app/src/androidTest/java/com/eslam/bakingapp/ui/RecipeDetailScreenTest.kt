@@ -16,8 +16,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -40,10 +40,10 @@ import org.junit.Rule
 import org.junit.Test
 
 class RecipeDetailScreenTest {
-    
+
     @get:Rule
     val composeTestRule = createComposeRule()
-    
+
     private val testRecipe = Recipe(
         id = "1",
         name = "Chocolate Chip Cookies",
@@ -63,7 +63,7 @@ class RecipeDetailScreenTest {
             Step("2", 2, "Mix ingredients.", null, null)
         )
     )
-    
+
     @Test
     fun recipeDetailScreen_displaysRecipeName() {
         composeTestRule.setContent {
@@ -76,10 +76,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("Chocolate Chip Cookies").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_displaysRecipeDescription() {
         composeTestRule.setContent {
@@ -92,10 +92,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText(testRecipe.description).assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_displaysTotalTime() {
         composeTestRule.setContent {
@@ -108,10 +108,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("27 min").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_displaysServings() {
         composeTestRule.setContent {
@@ -124,10 +124,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("24 servings").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_displaysDifficultyBadge() {
         composeTestRule.setContent {
@@ -140,10 +140,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("Easy").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_displaysIngredientsTab() {
         composeTestRule.setContent {
@@ -156,10 +156,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("Ingredients").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_displaysStepsTab() {
         composeTestRule.setContent {
@@ -172,10 +172,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("Steps").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_displaysIngredients() {
         composeTestRule.setContent {
@@ -188,10 +188,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("2.25 cups All-purpose flour").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_backButtonExists() {
         composeTestRule.setContent {
@@ -204,10 +204,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithContentDescription("Back").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_favoriteButtonExists() {
         composeTestRule.setContent {
@@ -220,10 +220,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithContentDescription("Favorite").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_showsLoadingState() {
         composeTestRule.setContent {
@@ -236,10 +236,10 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("Loading recipe...").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_showsErrorState() {
         composeTestRule.setContent {
@@ -252,25 +252,28 @@ class RecipeDetailScreenTest {
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("Couldn't load recipe").assertIsDisplayed()
     }
-    
+
     @Test
     fun recipeDetailScreen_stepsTabClickable() {
         var selectedTab = 0
-        
+
         composeTestRule.setContent {
             BakingAppTheme {
                 RecipeDetailTestContent(
-                    uiState = RecipeDetailUiState(recipe = testRecipe, selectedTabIndex = selectedTab),
+                    uiState = RecipeDetailUiState(
+                        recipe = testRecipe,
+                        selectedTabIndex = selectedTab
+                    ),
                     onNavigateBack = {},
                     onTabSelected = { selectedTab = it },
                     onFavoriteClick = {}
                 )
             }
         }
-        
+
         composeTestRule.onNodeWithText("Steps").performClick()
     }
 }
@@ -299,7 +302,7 @@ private fun RecipeDetailTestContent(
                     if (uiState.recipe != null) {
                         IconButton(onClick = onFavoriteClick) {
                             Icon(
-                                imageVector = if (uiState.recipe.isFavorite) {
+                                imageVector = if (uiState.recipe?.isFavorite == true) {
                                     Icons.Default.Favorite
                                 } else {
                                     Icons.Default.FavoriteBorder
@@ -319,50 +322,52 @@ private fun RecipeDetailTestContent(
                     modifier = Modifier.padding(paddingValues)
                 )
             }
-            
+
             uiState.errorMessage != null -> {
                 ErrorView(
                     title = "Couldn't load recipe",
-                    message = uiState.errorMessage,
+                    message = uiState.errorMessage ?: "Unknown error",
                     modifier = Modifier.padding(paddingValues)
                 )
             }
-            
+
             uiState.recipe != null -> {
                 val recipe = uiState.recipe
                 LazyColumn(modifier = Modifier.padding(paddingValues)) {
                     item {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = recipe.name,
+                                text = recipe?.name ?: "Unknown Recipe",
                                 style = MaterialTheme.typography.headlineMedium
                             )
-                            
+
                             Spacer(modifier = Modifier.height(8.dp))
-                            
+
                             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                                Text("${recipe.totalTimeMinutes} min")
-                                Text("${recipe.servings} servings")
+                                Text("${recipe?.totalTimeMinutes ?: "Unknown"} min")
+                                Text("${recipe?.servings ?: "Unknown"} servings")
                             }
-                            
+
                             Spacer(modifier = Modifier.height(8.dp))
-                            
-                            Text(
-                                text = recipe.difficulty.toDisplayString(),
-                                style = MaterialTheme.typography.labelMedium
-                            )
-                            
+
+                            recipe?.difficulty?.toDisplayString()?.let {
+                                Text(
+                                    text = it,
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
+
                             Spacer(modifier = Modifier.height(16.dp))
-                            
+
                             Text(
-                                text = recipe.description,
+                                text = recipe?.description ?: "Unknown Description",
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         }
                     }
-                    
+
                     item {
-                        TabRow(selectedTabIndex = uiState.selectedTabIndex) {
+                        SecondaryTabRow(selectedTabIndex = uiState.selectedTabIndex) {
                             Tab(
                                 selected = uiState.selectedTabIndex == 0,
                                 onClick = { onTabSelected(0) },
@@ -375,22 +380,27 @@ private fun RecipeDetailTestContent(
                             )
                         }
                     }
-                    
+
                     when (uiState.selectedTabIndex) {
                         0 -> {
-                            items(recipe.ingredients.size) { index ->
-                                Text(
-                                    text = recipe.ingredients[index].formatted,
-                                    modifier = Modifier.padding(16.dp)
-                                )
+                            items(recipe?.ingredients?.size ?: 0) { index ->
+                                recipe?.ingredients[index]?.formatted?.let {
+                                    Text(
+                                        text = it,
+                                        modifier = Modifier.padding(16.dp)
+                                    )
+                                }
                             }
                         }
+
                         1 -> {
-                            items(recipe.steps.size) { index ->
-                                Text(
-                                    text = recipe.steps[index].description,
-                                    modifier = Modifier.padding(16.dp)
-                                )
+                            items(recipe?.steps?.size ?: 0) { index ->
+                                recipe?.steps[index]?.description?.let {
+                                    Text(
+                                        text = it,
+                                        modifier = Modifier.padding(16.dp)
+                                    )
+                                }
                             }
                         }
                     }

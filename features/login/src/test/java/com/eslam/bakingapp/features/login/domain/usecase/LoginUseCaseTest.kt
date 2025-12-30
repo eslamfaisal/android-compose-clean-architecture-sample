@@ -61,11 +61,11 @@ class LoginUseCaseTest {
     
     @Test
     fun `successful login sets logged in state`() = runTest(testDispatcher) {
-        assertThat(fakeRepository.isLoggedIn()).isFalse()
+        assertThat(fakeRepository.isUserAuthenticated()).isFalse()
         
         loginUseCase("test@example.com", "Password123")
         
-        assertThat(fakeRepository.isLoggedIn()).isTrue()
+        assertThat(fakeRepository.isUserAuthenticated()).isTrue()
     }
 }
 

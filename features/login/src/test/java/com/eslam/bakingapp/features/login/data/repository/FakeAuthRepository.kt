@@ -52,7 +52,7 @@ class FakeAuthRepository : AuthRepository {
         return Result.Success(Unit)
     }
     
-    override fun isLoggedIn(): Boolean = isLoggedIn
+    override fun isUserAuthenticated(): Boolean = isLoggedIn
     
     override suspend fun refreshToken(): Result<LoginResult> {
         if (shouldReturnError) {
