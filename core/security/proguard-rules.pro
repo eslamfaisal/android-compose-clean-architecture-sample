@@ -19,7 +19,7 @@
 
 # Prevent R8 from removing the init block that loads the native library
 -keepclassmembers class com.eslam.bakingapp.core.security.NativeKeyProvider {
-    static <clinit>;
+    static <clinit>();
 }
 
 # ============================================================================

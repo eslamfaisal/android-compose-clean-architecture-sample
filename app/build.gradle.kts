@@ -49,6 +49,10 @@ android {
         compose = true
         buildConfig = true
     }
+
+    lint {
+        disable += "RemoveWorkManagerInitializer"
+    }
 }
 
 dependencies {
