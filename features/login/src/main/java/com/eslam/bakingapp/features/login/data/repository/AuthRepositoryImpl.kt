@@ -72,7 +72,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
     
-    override fun isLoggedIn(): Boolean {
+    override fun isUserAuthenticated(): Boolean {
         return tokenManager.hasValidToken()
     }
     

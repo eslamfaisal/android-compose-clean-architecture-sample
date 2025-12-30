@@ -24,21 +24,19 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -54,11 +52,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.eslam.bakingapp.core.ui.components.ErrorView
 import com.eslam.bakingapp.core.ui.components.ErrorType
+import com.eslam.bakingapp.core.ui.components.ErrorView
 import com.eslam.bakingapp.core.ui.components.FullScreenLoading
 import com.eslam.bakingapp.core.ui.theme.BakingAppTheme
 import com.eslam.bakingapp.features.home.domain.model.Difficulty
@@ -76,7 +74,7 @@ fun RecipeDetailScreen(
     viewModel: RecipeDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    
+
     RecipeDetailContent(
         uiState = uiState,
         onNavigateBack = onNavigateBack,
@@ -119,7 +117,7 @@ private fun RecipeDetailContent(
                     if (uiState.recipe != null) {
                         // Timer button
                         IconButton(
-                            onClick = { 
+                            onClick = {
                                 onStartTimer(
                                     uiState.recipe.name,
                                     uiState.recipe.cookTimeMinutes
@@ -132,7 +130,7 @@ private fun RecipeDetailContent(
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
-                        
+
                         // Favorite button
                         IconButton(onClick = onFavoriteClick) {
                             Icon(
@@ -188,7 +186,7 @@ private fun RecipeDetailContent(
                 uiState.isLoading -> {
                     FullScreenLoading(message = "Loading recipe...")
                 }
-                
+
                 uiState.hasError -> {
                     ErrorView(
                         errorType = ErrorType.GENERAL,
@@ -199,7 +197,7 @@ private fun RecipeDetailContent(
                         secondaryActionLabel = "Go Back"
                     )
                 }
-                
+
                 uiState.recipe != null -> {
                     RecipeDetailBody(
                         recipe = uiState.recipe,
@@ -236,7 +234,7 @@ private fun RecipeDetailBody(
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
-                
+
                 // Gradient overlay
                 Box(
                     modifier = Modifier
@@ -251,7 +249,7 @@ private fun RecipeDetailBody(
                             )
                         )
                 )
-                
+
                 // Recipe info overlay
                 Column(
                     modifier = Modifier
@@ -264,9 +262,9 @@ private fun RecipeDetailBody(
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
-                    
+
                     Spacer(modifier = Modifier.height(8.dp))
-                    
+
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
@@ -280,7 +278,7 @@ private fun RecipeDetailBody(
                         )
                     }
                 }
-                
+
                 // Difficulty badge
                 DifficultyBadge(
                     difficulty = recipe.difficulty,
@@ -290,7 +288,7 @@ private fun RecipeDetailBody(
                 )
             }
         }
-        
+
         // Description
         item {
             Text(
@@ -300,10 +298,10 @@ private fun RecipeDetailBody(
                 modifier = Modifier.padding(16.dp)
             )
         }
-        
+
         // Tabs
         item {
-            TabRow(
+            SecondaryTabRow(
                 selectedTabIndex = selectedTabIndex,
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -316,7 +314,7 @@ private fun RecipeDetailBody(
                 }
             }
         }
-        
+
         // Tab content
         when (selectedTabIndex) {
             0 -> {
@@ -331,6 +329,7 @@ private fun RecipeDetailBody(
                     )
                 }
             }
+
             1 -> {
                 // Steps
                 itemsIndexed(recipe.steps) { index, step ->
@@ -349,7 +348,7 @@ private fun RecipeDetailBody(
                 }
             }
         }
-        
+
         // Bottom spacing
         item {
             Spacer(modifier = Modifier.height(32.dp))
@@ -397,7 +396,7 @@ private fun DifficultyBadge(
         Difficulty.MEDIUM -> Color(0xFFFFC107)
         Difficulty.HARD -> Color(0xFFFF5722)
     }
-    
+
     Box(
         modifier = modifier
             .background(
@@ -439,9 +438,9 @@ private fun IngredientItem(
                         shape = CircleShape
                     )
             )
-            
+
             Spacer(modifier = Modifier.width(12.dp))
-            
+
             Text(
                 text = ingredient.formatted,
                 style = MaterialTheme.typography.bodyMedium,
@@ -487,21 +486,22 @@ private fun StepItem(
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }
-            
+
             Spacer(modifier = Modifier.width(16.dp))
-            
+
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = step.description,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                
+
                 // Show timer button for steps that mention time
                 if (step.description.contains("minute", ignoreCase = true) ||
                     step.description.contains("hour", ignoreCase = true) ||
                     step.description.contains("bake", ignoreCase = true) ||
-                    step.description.contains("cook", ignoreCase = true)) {
+                    step.description.contains("cook", ignoreCase = true)
+                ) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = { onStartStepTimer?.invoke(stepNumber) },

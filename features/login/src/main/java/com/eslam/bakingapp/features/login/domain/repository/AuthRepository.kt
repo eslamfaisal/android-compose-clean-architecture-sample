@@ -23,7 +23,7 @@ interface AuthRepository {
     /**
      * Checks if user is currently logged in.
      */
-    fun isLoggedIn(): Boolean
+    fun isUserAuthenticated(): Boolean
     
     /**
      * Refreshes the authentication token.
