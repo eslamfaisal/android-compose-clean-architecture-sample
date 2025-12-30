@@ -12,7 +12,7 @@
 
 # Keep static initializer that loads the native library
 -keepclassmembers class com.eslam.bakingapp.core.security.NativeKeyProvider {
-    static <clinit>;
+    static <clinit>();
 }
 
 # ============================================================================
