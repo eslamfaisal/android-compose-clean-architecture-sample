@@ -87,6 +87,9 @@ android {
     buildFeatures {
         prefab = false
     }
+
+    // NDK required for Android 15+ (16KB page alignment)
+    ndkVersion = libs.versions.ndk.get()
 }
 
 dependencies {

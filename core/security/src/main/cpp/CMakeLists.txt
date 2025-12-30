@@ -43,6 +43,9 @@ target_link_libraries(
     ${log-lib}
 )
 
+# 16 KB page size alignment for Android 15+ compatibility
+target_link_options(native-keys PRIVATE "-Wl,-z,max-page-size=16384")
+
 # Optional: Add additional compiler warnings for development
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_options(native-keys PRIVATE

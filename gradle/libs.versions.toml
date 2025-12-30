@@ -57,6 +57,9 @@ coroutinesTest = "1.9.0"
 mockito = "5.12.0"
 mockitoKotlin = "5.4.0"
 
+# NDK
+ndk = "29.0.14206865"
+
 [libraries]
 # Core Android
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
